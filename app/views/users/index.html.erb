@@ -1,9 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+     
 <%= render 'show',user: @user %>
 <%= render 'books/new',book: @book %>
-
+</div>
+<div class="col-md-8 offset-1">
 <h1>Users</h1>
 <div>
-  <table>
+  <table class="table table-striped">
     <tr>
       <th>image</th>
       <th>name</th>
@@ -13,7 +18,11 @@
     <tr>
       <td><%= image_tag user.get_profile_image(100,100) %></td>
       <td><%= user.name %></td>
+      <td><%= link_to "Show",user_path(user.id),class: "btn btn-info" %></td>
     </tr>
     <% end %>
   </table>
+</div>
+</div>
+ </div>
 </div>

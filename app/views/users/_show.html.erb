@@ -1,6 +1,6 @@
 <h1>User info</h1>
 <%= image_tag user.get_profile_image(100,100) %>
-<table>
+<table class="table">
   <tr>
     <td>name</td>
     <td><%= user.name %></td>
@@ -10,6 +10,8 @@
     <td><%= user.introduction %></td>
   </tr>
 </table>
-<div>
-  <%= link_to "編集",edit_user_path(user) %>
+<div class="row">
+  <%= link_to edit_user_path(user),class: "btn btn-outline-secondary btn-block" do %>
+  <i class="fas fa-user-cog"></i>
+  <% end %>
 </div>

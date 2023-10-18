@@ -1,12 +1,21 @@
 class BooksController < ApplicationController
+  before_action :move_to_signed_in
+  before_action :correct_user,only: [:edit,:update]
   def new
   end
 
   def create
-    book = Book.new(book_params)
-    book.user_id = current_user.id
-    book.save
-    redirect_to books_path
+    @book = Book.new(book_params)
+    @book.user_id = current_user.id
+    if @book.save
+    redirect_to book_path(@book.id),notice: "投稿しました"
+  else
+     @user = current_user
+    @books = Book.all
+    render :index
+    @book = Book.new
+
+  end
   end
 
   def index
@@ -27,9 +36,12 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    @book.update(book_params)
-    redirect_to book_path(@book)
+    if @book.update(book_params)
+    redirect_to book_path(@book),notice: "更新しました"
+  else
+    render :edit
   end
+end
 
   def destroy
     @book = Book.find(params[:id])
@@ -41,5 +53,18 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title,:body)
   end
+
+  def move_to_signed_in
+    unless user_signed_in?
+      redirect_to new_user_session_path
+    end
+  end
+
+  def correct_user
+      @book = Book.find(params[:id])
+      @user = @book.user
+      redirect_to(books_path) unless @user == current_user
+    end
+
 
 end

@@ -1,19 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
 <%= render 'show',user: @user %>
 <%= render 'books/new',book: @book %>
+</div>
 
-
-<table>
+<div class="col-md-8 offset-1">
+  <h1>Books</h1>
+<table class="table table-striped">
   <tr>
     <th></th>
     <th>Title</th>
     <th>Opinion</th>
   </tr>
+
   <% @books.each do |book| %>
   <tr>
     <td><%= image_tag book.user.get_profile_image(100,100) %></td>
-    <td><%= book.title %></td>
+    <td>
+      <%= link_to book_path(book.id) do %>
+      <%= book.title %>
+      <% end %>
+      </td>
     <td><%= book.body %></td>
   </tr>
   <% end %>
 </table>
+</div>
+ </div>
+</div>
+
 
