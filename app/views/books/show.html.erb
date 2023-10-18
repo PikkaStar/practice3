@@ -1,9 +1,15 @@
+<%= render 'users/show',user: @user %>
 <%= render 'new',book: @book_new %>
 
 <h1>Book detail</h1>
 <table>
   <tr>
-    <td></td>
+    <td>
+      <%= link_to user_path(@book.id) do %>
+      <%= image_tag @book.user.get_profile_image(100,100) %><br>
+      <%= @book.user.name %>
+      <% end %>
+    </td>
     <td><%= @book.title %></td>
     <td><%= @book.body %></td>
     <% if @book.user_id == current_user.id %>
