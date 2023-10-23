@@ -5,6 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          has_many :books,dependent: :destroy
          has_many :book_comments,dependent: :destroy
+         has_many :favorites,dependent: :destroy
+         
+         has_many :relationships,foreign_key: "followed_id",dependent: :destroy
+         has_many :reverse_of_relationships,class_name: 'Relationship',foreign_key: 'follower_id',dependent: :destroy
+         
+         has_many :followings,through: :relationships,source: :follower
+         has_many :follower,through: :reverse_of_relationships,source: :following
+         
          has_one_attached :profile_image
          validates :name,uniqueness: true,length: {in: 2..20}
          validates :introduction,length: {maximum: 200}

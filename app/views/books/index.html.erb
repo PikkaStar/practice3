@@ -12,6 +12,9 @@
   <th></th>
   <th>Title</th>
   <th>Opinion</th>
+  <th>Comments</th>
+  <th>Favorites</th>
+  <th></th>
 </tr>
 <% @books.each do |book| %>
 <tr>
@@ -26,6 +29,21 @@
     <% end %>
     </td>
   <td><%= book.body %></td>
+  <td>コメント<%= book.book_comments.count %>件</td>
+  <td><%= book.favorites.count %>いいね</td>
+  <td>
+  <% unless book.user_id == current_user.id %>
+
+    <% if book.favorited_by?(current_user) %>
+    <%= link_to book_favorites_path(book.id),method: :delete do %>♥<%= book.favorites.count %>
+    <% end %>
+    <% else %>
+    <%= link_to book_favorites_path(book.id),method: :post do %>♡<%= book.favorites.count %>
+    <% end %>
+    <% end %>
+
+  <% end %>
+  </td>
 </tr>
 <% end %>
 
