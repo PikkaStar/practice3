@@ -1,0 +1,23 @@
+<h1>フォロワー一覧</h1>
+<% if @users.exists? %>
+<table class="table table-striped">
+  <tr>
+    <th>image</th>
+    <th>name</th>
+    <th colspan="3"></th>
+  </tr>
+  <% @users.each do |user| %>
+  <tr>
+    <td>
+      <%= image_tag user.get_profile_image(100,100) %>
+      </td>
+      <td><%= user.name %></td>
+      <td>フォロー<%= user.followings.count %>人</td>
+      <td>フォロワー<%= user.followers.count %>人</td>
+      <td><%= link_to "Show",user_path(user.id) %></td>
+  </tr>
+  <% end %>
+</table>
+<% else %>
+<p>ユーザーはいません</p>
+<% end %>
