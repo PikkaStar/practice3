@@ -28,8 +28,8 @@ class BooksController < ApplicationController
     @user = current_user
     @book = Book.find(params[:id])
     @book_new = Book.new
-    @book_comment = @book.book_comments
-    @comment = current_user.book_comments.new(book_id: @book.id)
+    @book_comments = @book.book_comments
+    @book_comment = current_user.book_comments.new(book_id: @book.id)
   end
 
   def edit
