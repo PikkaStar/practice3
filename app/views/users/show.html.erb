@@ -2,6 +2,23 @@
   <div class="row">
     <div class="col-md-3">
 <%= render 'show',user: @user %>
+
+<% unless @user.id == current_user.id %>
+      <% if (current_user.following? @user) && (@user.following? current_user) %>
+      <% if @isRoom == true %>
+      <p class="user-show-room"><a href = "/rooms/<%= @roomId %>" class = "btn btn-primary btn-lg">チャットへ</a></p>
+      <% else %>
+      <%= form_for @room do |f| %>
+      <%= fields_for @entry do |e| %>
+      <%= e.hidden_field :user_id,value: @user.id %>
+      <% end %>
+      <%= f.submit "チャットを始める",class: "btn btn-primary btn-lg" %>
+      <% end %>
+      <% end %>
+      <% end %>
+      <% end %>
+
+
 <%= render 'books/new',book: @book %>
 </div>
 
@@ -35,16 +52,9 @@
       <%= book.favorites.count %>いいね
     </td>
     <% else %>
-    <td>
-    <% if book.favorited_by?(current_user) %>
-    <%= link_to book_favorites_path(book.id),method: :delete do %>♥<%= book.favorites.count %>いいね
+    <td id="favorite_buttons_<%= book.id %>">
+    <%= render 'favorites/favorite',book: book %>
     <% end %>
-    <% else %>
-    <%= link_to book_favorites_path(book.id),method: :post do %>♡<%= book.favorites.count %>いいね
-    <% end %>
-    <% end %>
-
-  <% end %>
   </td>
   </tr>
   <% end %>
